@@ -6,7 +6,7 @@ money_ts.sort((a, b) => {
 
 const change_money_ts = (have_money:number, sum_item:number, money:number[]) => {
   let change = have_money - sum_item;
-  let answer = {};
+  let answer : any = {};
   money.forEach((value) => {
     let many = Math.floor(change / value);
     change -= value * many;
