@@ -1,8 +1,9 @@
-lineOne1 = [0, 0, 0, 0, 0, 1, 0, 0, 1, 0]
-lineTwo1 = [0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
-lineThr1 = [0, 0, 0, 1, 0, 1, 0, 1, 0, 0]
-lineFou1 = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
-linefiv1 = [0, 0, 0, 0, 0, 1, 0, 1, 0, 0]
+lineOne1 = [0, 1, 0, 0, 0, 1, 0, 0, 1, 0]
+lineTwo1 = [0, 1, 1, 0, 0, 1, 0, 0, 0, 0]
+lineThr1 = [0, 1, 0, 1, 0, 1, 0, 1, 0, 0]
+lineFou1 = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
+linefiv1 = [0, 1, 0, 0, 0, 1, 0, 1, 0, 0]
+linesix1 = [0, 1, 0, 0, 0, 1, 0, 1, 0, 0]
 
 def bingo(arr):
   test = "ok"
@@ -19,11 +20,13 @@ def bingo(arr):
         test = "데이터에 0과 1이 아닌값이 있습니다."
       sum[index] += item[index]
   # 리스트들의 값을 sum에 더하기.
+  print(sum)
   if test == "ok":
     for i in range(len(arr[0])):
       if sum[i] == len(arr):
         bingo.append(i)
     # bingo 리스트에 sum값이 5인 index를 넣기.
+    print(bingo)
     score = len(bingo)
 
     for i in bingo:
@@ -32,7 +35,7 @@ def bingo(arr):
         del arr[index][i]
         # 지우기
     print(arr)
-    print("score : "+score)
+    print(score)
   else:
     print("error : "+test)
       
@@ -43,4 +46,4 @@ def bingo(arr):
 
 
 
-bingo([lineOne1, lineTwo1, lineThr1, lineFou1, linefiv1])
+bingo([lineOne1, lineTwo1, lineThr1, lineFou1, linefiv1,linesix1])

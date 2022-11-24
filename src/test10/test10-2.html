@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      #root {
+        display: flex;
+      }
+      #canvas {
+        display: flex;
+        height: 500px;
+        align-items: flex-end;
+      }
+      #canvas > div {
+        width: 100px;
+        border: 1px red solid;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-align: center;
+        background-color: salmon;
+        z-index: 1;
+      }
+      #xAxis {
+        display: flex;
+        height: 50px;
+      }
+      #xAxis > div {
+        width: 100px;
+        margin: 5px;
+        border: 1px white solid;
+        text-align: center;
+      }
+      #yAxis {
+        width: 50px;
+        height: 625px;
+        position: relative;
+      }
+      #yAxis > div {
+        width: 1100px;
+        height: 20%;
+        border-top: 1px #ccc solid;
+        position: relative;
+      }
+      #yAxis > div > p {
+        width: 38px;
+        background-color: white;
+        margin: 0px;
+        position: relative;
+        top: -12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div>
+        <div id="yAxis"></div>
+        <div></div>
+      </div>
+      <div>
+        <div id="canvas"></div>
+        <div id="xAxis"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const kdt_invest = [
+      2010, 1980, 1989, 1995, 2003, 2007, 2001, 2003, 1970, 1995,
+    ]; //데이터
+    const kdt_invest_max = Math.max(...kdt_invest);
+    const kdt_invest_min = Math.min(...kdt_invest);
+    const kdt_invest_gap = kdt_invest_max - kdt_invest_min;
+
+    const yAxes_max = Math.floor(kdt_invest_max / 5 + 1) * 5;
+    //y축 최대값 : 5단위로 올림
+    const yAxes_min = Math.floor(kdt_invest_min / 5 - 1) * 5;
+    //y축 최소값 : 5단위로 내림
+    const yAxes_gap = yAxes_max - yAxes_min;
+    const yAxes_Array = [
+      yAxes_max,
+      Math.floor(yAxes_min + (yAxes_gap * 3) / 4),
+      Math.floor(yAxes_min + (yAxes_gap * 2) / 4),
+      Math.floor(yAxes_min + (yAxes_gap * 1) / 4),
+      yAxes_min,
+    ];
+
+    const canvas = document.getElementById("canvas");
+    const xAxis = document.getElementById("xAxis");
+    const yAxis = document.getElementById("yAxis");
+
+    kdt_invest.map((item, index) => {
+      let div = document.createElement("div");
+      canvas.appendChild(div);
+      canvas.children[index].style.height =
+        (item - yAxes_min) * (100 / yAxes_gap) + "%";
+      canvas.children[index].textContent = item;
+    });
+    kdt_invest.map((item, index) => {
+      let div = document.createElement("div");
+      xAxis.appendChild(div);
+      xAxis.children[index].textContent = index + 1 + " day";
+    });
+    for (let i = 0; i < 5; i++) {
+      let div = document.createElement("div");
+      yAxis.appendChild(div);
+      yAxis.children[i].style.width = 110 * kdt_invest.length + 50 + "px";
+      let p = document.createElement("p");
+      yAxis.children[i].appendChild(p);
+      yAxis.children[i].children[0].textContent = yAxes_Array[i];
+    }
+  </script>
+</html>

@@ -1,0 +1,58 @@
+<!-- 
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="width: 900px; height: 900px">
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <script type="text/javascript">
+      const kdt_invest = [
+        2003, 1980, 1989, 1995, 2003, 2007, 2001, 2003, 1970, 1995,
+      ];
+      const kdt_invest_max = Math.max(...kdt_invest);
+      const kdt_invest_min = Math.min(...kdt_invest);
+      const kdt_invest_gap = kdt_invest_max - kdt_invest_min;
+      var context = document.getElementById("myChart").getContext("2d");
+      var myChart = new Chart(context, {
+        type: "bar",
+        data: {
+          labels: kdt_invest.map((item, index) => {
+            return index + 1;
+          }),
+          datasets: [
+            {
+              label: "test1", //차트 제목
+              fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+              data: kdt_invest,
+              backgroundColor: "rgba(255, 99, 132, 0.2)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              borderWidth: 1, //경계선 굵기
+            },
+          ],
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  min: kdt_invest_min - kdt_invest_gap * 0.2,
+                  stepSize: 20,
+                },
+              },
+            ],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

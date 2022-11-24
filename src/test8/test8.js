@@ -1,4 +1,4 @@
-const lineOne1 = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
+const lineOne1 = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0];
 const lineTwo1 = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0];
 const lineThr1 = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0];
 const lineFou1 = [0, 1, 0, 1, 0, 1, 0, 0, 0, 0];
