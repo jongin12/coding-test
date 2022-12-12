@@ -1,19 +1,20 @@
-const test = (data) => {
-  if (data >= 1 && data <= 100 && Number.isInteger(data)) {
-    return [true, ""];
-  } else if (data < 1 || data > 100) {
-    return [false, "값은 1이상 100이하여야 합니다. "];
-  } else if (!Number.isInteger(data)) {
-    return [false, "값은 정수여야 합니다. "];
-  }
+"use strict";
+const test2 = (data) => {
+    if (data > 1 &&
+        data < 100 &&
+        Number.isInteger(data)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 };
-
-const cone_volume = (r, h) => {
-  if (test(r)[0] && test(h)[0]) {
-    return Math.floor((r * r * h * Math.PI) / 3);
-  } else {
-    return test(r)[1] + test(h)[1];
-  }
+const cone_volume2 = (r, h) => {
+    if (test2(r) && test2(h)) {
+        return Math.floor((r * r * h * Math.PI) / 3);
+    }
+    else {
+        return "data error";
+    }
 };
-
-console.log(cone_volume(101, 10.3));
+console.log(cone_volume2(99, 10));

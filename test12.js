@@ -43,7 +43,7 @@ class Privacy {
 }
 
 class Student extends Privacy {
-  static location = "대전그린컴퓨터아트학원";
+  static location = "그린컴퓨터아트학원";
   constructor(name, birth, phoneNum, eMail, NCS, className) {
     super(name, birth, phoneNum, eMail);
     if (NCSdata[NCS] && typeof NCS === "number") {
@@ -119,3 +119,4 @@ console.log(me);
 // console.log(me instanceof Student);
 // console.log(me.D_Day());
 console.log(me.age());
+console.log(Student);
