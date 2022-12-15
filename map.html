@@ -31,7 +31,7 @@
   <body>
     <div id="map" style="width: 100vw; height: 100vh"></div>
     <div id="UI">
-      <p>거리</p>
+      <p id="line">거리재기</p>
       <p id="text"></p>
       <br />
       <p id="text2"></p>
@@ -52,7 +52,7 @@
         let 거리 = Math.sqrt(위도_거리 ** 2 + 경도_거리 ** 2);
         //? 대각선길이(전체 거리) = 루트(가로**2 + 세로**2)
         // console.log(`거리 : ${거리.toFixed(2)}km`);
-        return 거리.toFixed(2) + "km";
+        return 거리.toFixed(2);
       }
       //두 장소의 거리 계산하는 함수
 
@@ -68,29 +68,56 @@
         //map 생성
         const map = new naver.maps.Map("map", mapOptions);
 
-        const polyline = new naver.maps.polyline({
+        const polyline = new naver.maps.Polyline({
           map: map,
           path: [],
-          strokeColor: "#5347AA",
+          strokeColor: "#ff0000",
           strokeWeight: 2,
         });
 
+        const line = document.getElementById("line");
+
         let arr = [];
-        let markerArr = [];
+        let sumArr = [];
         //클릭시 레이어에 현재 위도 경도 출력하도록 설정함
+        let lineState = false;
+        line.addEventListener("click", () => {
+          if (lineState) {
+            lineState = false;
+            line.style.backgroundColor = "white";
+            let sum = 0;
+            sumArr.map((item) => {
+              sum += Number(item);
+            });
+            document.getElementById("text").textContent = sum + "km";
+            sumArr = [];
+            arr = [];
+            polyline.getPath()._array = [];
+          } else {
+            lineState = true;
+            line.style.backgroundColor = "pink";
+          }
+        });
+
+        const marker = new naver.maps.Marker({
+          map: map,
+        });
 
         naver.maps.Event.addListener(map, "click", function (e) {
-          const marker = new naver.maps.Marker({
-            map: map,
-          });
-          markerArr.push(marker);
-          marker.setPosition(e.latlng);
-          if (markerArr.length === 3) {
-            markerArr[0].onRemove();
-            markerArr[1].onRemove();
-            markerArr[2].onRemove();
-            markerArr = [];
+          let point = e.latlng;
+          let path = polyline.getPath();
+          if (lineState) {
+            path.push(point);
+            arr.push({ 위도: e.latlng._lat, 경도: e.latlng._lng });
+            if (arr.length === 2) {
+              let sum = test(arr[0], arr[1]);
+              sumArr.push(sum);
+              arr.shift();
+            }
           }
+
+          marker.position = point;
+          marker.setPosition(e.latlng);
           // console.log("위도: "+e.latlng._lat, "경도: "+e.latlng._lng)
           var HOME_PATH = window.HOME_PATH || ".";
           //화면에 출력할 정보창 내용
@@ -105,12 +132,6 @@
 
           const text2 = document.getElementById("text2");
           text2.innerHTML = contentString;
-
-          arr.push({ 위도: e.latlng._lat, 경도: e.latlng._lng });
-          if (arr.length === 2) {
-            document.getElementById("text").textContent = test(arr[0], arr[1]);
-            arr.shift();
-          }
           //누르면 배열에 위도 경도 입력, 2번 이상 누를시 최근 2번의 거리 계산해서 콘솔에 출력
         });
       });
