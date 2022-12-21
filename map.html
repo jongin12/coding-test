@@ -59,12 +59,12 @@
 
       //geolocation 현재 위치 위도 경도 추출 ( 오차가 있어서 실제 좌표는 직접 입력했음)
       navigator.geolocation.getCurrentPosition(function (pos) {
-        console.log(pos);
+        // console.log(pos);
         //지도 옵션 정의
         const mapOptions = {
           //초기 위도 경도 지정
           center: new naver.maps.LatLng(36.35193849156777, 127.37843690491263),
-          zoom: 12,
+          zoom: 16,
         };
         //map 생성
         const map = new naver.maps.Map("map", mapOptions);
@@ -81,56 +81,56 @@
         const minX = 127.18;
         const maxY = 36.49;
         const minY = 36.15;
-        fetch(
-          `https://openapi.its.go.kr:9443/cctvInfo?apiKey=${key}&type=ex&cctvType=2&minX=${minX}&maxX=${maxX}&minY=${minY}&maxY=${maxY}&getType=json`
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            let data = res.response.data;
-            console.log(data);
-            data.map((item) => {
-              let marker = new naver.maps.Marker({
-                position: {
-                  x: item.coordx,
-                  y: item.coordy,
-                },
-                map: map,
-              });
-              marker.addListener("click", () => {
-                if (document.getElementById("video").children.length === 2) {
-                  document.getElementById("video").children[0].remove();
-                  document.getElementById("video").children[0].remove();
-                }
-                let video = document.createElement("video");
-                video.src = item.cctvurl;
-                // video.controls = true;
-                video.autoplay = true;
-                // video.play();
-                video.style.position = "absolute";
-                video.style.width = "300px";
-                video.style.height = "200px";
-                video.style.bottom = "10px";
-                video.style.left = "110px";
-                document.getElementById("video").appendChild(video);
-                let x = document.createElement("div");
-                x.textContent = "x";
-                x.style.position = "absolute";
-                x.style.width = "30px";
-                x.style.height = "30px";
-                x.style.bottom = "180px";
-                x.style.left = "380px";
-                x.style.fontSize = "24px";
-                x.style.alignItems = "center";
-                x.style.justifyContent = "center";
-                x.style.cursor = "pointer";
-                document.getElementById("video").appendChild(x);
-                x.addEventListener("click", () => {
-                  document.getElementById("video").children[0].remove();
-                  document.getElementById("video").children[0].remove();
-                });
-              });
-            });
-          });
+        // fetch(
+        //   `https://openapi.its.go.kr:9443/cctvInfo?apiKey=${key}&type=ex&cctvType=2&minX=${minX}&maxX=${maxX}&minY=${minY}&maxY=${maxY}&getType=json`
+        // )
+        //   .then((res) => res.json())
+        //   .then((res) => {
+        //     let data = res.response.data;
+        //     console.log(data);
+        //     data.map((item) => {
+        //       let marker = new naver.maps.Marker({
+        //         position: {
+        //           x: item.coordx,
+        //           y: item.coordy,
+        //         },
+        //         map: map,
+        //       });
+        //       marker.addListener("click", () => {
+        //         if (document.getElementById("video").children.length === 2) {
+        //           document.getElementById("video").children[0].remove();
+        //           document.getElementById("video").children[0].remove();
+        //         }
+        //         let video = document.createElement("video");
+        //         video.src = item.cctvurl;
+        //         // video.controls = true;
+        //         video.autoplay = true;
+        //         // video.play();
+        //         video.style.position = "absolute";
+        //         video.style.width = "300px";
+        //         video.style.height = "200px";
+        //         video.style.bottom = "10px";
+        //         video.style.left = "110px";
+        //         document.getElementById("video").appendChild(video);
+        //         let x = document.createElement("div");
+        //         x.textContent = "x";
+        //         x.style.position = "absolute";
+        //         x.style.width = "30px";
+        //         x.style.height = "30px";
+        //         x.style.bottom = "180px";
+        //         x.style.left = "380px";
+        //         x.style.fontSize = "24px";
+        //         x.style.alignItems = "center";
+        //         x.style.justifyContent = "center";
+        //         x.style.cursor = "pointer";
+        //         document.getElementById("video").appendChild(x);
+        //         x.addEventListener("click", () => {
+        //           document.getElementById("video").children[0].remove();
+        //           document.getElementById("video").children[0].remove();
+        //         });
+        //       });
+        //     });
+        //   });
 
         const line = document.getElementById("line");
 
@@ -160,8 +160,12 @@
           map: map,
         });
 
+        const node = [];
+
         naver.maps.Event.addListener(map, "click", function (e) {
           let point = e.latlng;
+          node.push({ x: point.x, y: point.y });
+          console.log(node);
           let path = polyline.getPath();
           if (lineState) {
             path.push(point);
